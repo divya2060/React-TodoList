@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React, {useState} from 'react'
 import './App.css';
-
-function App() {
+import TodoList from './components/TodoList';
+const App = () => {
+  const [value, setvalue] = useState([]);
+  const [inputText, setinputText] = useState('');
+  const addItems = (inputText) =>{
+    setvalue([...value,inputText]);
+    setinputText('')
+  }
+  const DeleteItems = (key) =>
+  {
+    let newValue = [...value];
+    newValue.splice(key,1);
+    setvalue(newValue);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+    <div className="center-container">
+      <h1>TODO LIST</h1>
+      <hr></hr>
+      <div className='input-Field'>
+      <input type='text' placeholder='Enter Tasks' value={inputText} onChange={(e)=>setinputText(e.target.value)}/>
+       <button className='Add' onClick={()=>addItems(inputText)}>+</button>
+       </div>
+       {value.map((value,i)=>{
+        return(
+          <TodoList value={value} key={i} DeleteItems={DeleteItems} index={i}/>
+        )
+       })}
+
     </div>
-  );
+  
+  </div>
+  )
 }
 
-export default App;
+export default App
+
+
